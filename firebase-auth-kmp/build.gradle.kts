@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     id("maven-publish")
+    id("signing")
 }
 
 group = "dev.com3run"
@@ -59,6 +60,19 @@ android {
 publishing {
     repositories {
         mavenLocal()
+
+        // Maven Central via Sonatype OSSRH
+        maven {
+            name = "OSSRH"
+            val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+
+            credentials {
+                username = project.findProperty("ossrhUsername") as String? ?: System.getenv("OSSRH_USERNAME")
+                password = project.findProperty("ossrhPassword") as String? ?: System.getenv("OSSRH_PASSWORD")
+            }
+        }
     }
 
     publications.withType<MavenPublication> {
@@ -78,14 +92,24 @@ publishing {
                 developer {
                     id.set("com3run")
                     name.set("Kamran Mammadov")
+                    email.set("your.email@example.com")
                 }
             }
 
             scm {
                 connection.set("scm:git:git://github.com/com3run/testauth.git")
-                developerConnection.set("scm:git:ssh://github.com/com3run/testauth.git")
+                developerConnection.set("scm:git:ssh://git@github.com:com3run/testauth.git")
                 url.set("https://github.com/com3run/testauth")
             }
         }
+    }
+}
+
+// Signing configuration for Maven Central
+signing {
+    // Only sign if credentials are available (won't break local builds)
+    val signingKey = project.findProperty("signing.keyId") as String?
+    if (signingKey != null) {
+        sign(publishing.publications)
     }
 }

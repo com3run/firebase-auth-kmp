@@ -21,3 +21,9 @@ node_modules/
 # Firebase configuration files (contain sensitive keys)
 google-services.json
 GoogleService-Info.plist
+
+# Maven Central publishing credentials (NEVER commit these!)
+gradle.properties
+secring.gpg
+*.asc
+private-key.txt

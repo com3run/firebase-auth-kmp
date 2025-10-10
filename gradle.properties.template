@@ -1,0 +1,49 @@
+# Gradle Properties Template for Maven Central Publishing
+#
+# INSTRUCTIONS:
+# 1. Copy this file to ~/.gradle/gradle.properties (your home directory)
+# 2. Fill in your actual credentials (never commit this to Git!)
+# 3. Keep this file secure - it contains sensitive information
+#
+# NOTE: This template file can be safely committed to Git as it contains no real credentials
+
+# ===================================
+# Sonatype OSSRH Credentials
+# ===================================
+# Get these from: https://issues.sonatype.org/
+# After creating your Sonatype account and getting approval for dev.com3run group ID
+
+ossrhUsername=your-sonatype-username
+ossrhPassword=your-sonatype-password
+
+# ===================================
+# GPG Signing Configuration
+# ===================================
+# Used to sign your artifacts for Maven Central
+
+# The last 8 characters of your GPG key ID
+# Get this with: gpg --list-keys
+signing.keyId=12345678
+
+# Your GPG key passphrase
+signing.password=your-gpg-passphrase
+
+# Path to your GPG secret key ring file
+# Get this with: gpg --export-secret-keys YOUR_KEY_ID > ~/.gnupg/secring.gpg
+signing.secretKeyRingFile=/Users/yourusername/.gnupg/secring.gpg
+
+# ===================================
+# Alternative: In-memory signing (recommended)
+# ===================================
+# Instead of using secretKeyRingFile, you can export your key to base64:
+# gpg --export-secret-keys YOUR_KEY_ID | base64 > private-key.txt
+# Then use:
+# signing.key=<paste-base64-encoded-key-here>
+
+# ===================================
+# Optional: GitHub Packages
+# ===================================
+# If you also want to publish to GitHub Packages
+
+gpr.user=your-github-username
+gpr.token=your-github-personal-access-token
