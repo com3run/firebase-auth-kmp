@@ -6,7 +6,7 @@ plugins {
     id("maven-publish")
 }
 
-group = "az.random"
+group = "dev.com3run"
 version = "1.0.0"
 
 kotlin {
@@ -43,7 +43,7 @@ kotlin {
 }
 
 android {
-    namespace = "az.random.firebaseauth"
+    namespace = "dev.com3run.firebaseauthkmp"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
@@ -57,41 +57,35 @@ android {
 }
 
 publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "az.random"
-            artifactId = "firebase-auth-kmp"
-            version = "1.0.0"
-
-            pom {
-                name.set("Firebase Auth KMP")
-                description.set("Firebase Authentication library for Kotlin Multiplatform (Android & iOS)")
-                url.set("https://github.com/com3run/testauth")
-
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("https://opensource.org/licenses/MIT")
-                    }
-                }
-
-                developers {
-                    developer {
-                        id.set("com3run")
-                        name.set("Kamran Mammadov")
-                    }
-                }
-
-                scm {
-                    connection.set("scm:git:git://github.com/com3run/testauth.git")
-                    developerConnection.set("scm:git:ssh://github.com/com3run/testauth.git")
-                    url.set("https://github.com/com3run/testauth")
-                }
-            }
-        }
-    }
-
     repositories {
         mavenLocal()
+    }
+
+    publications.withType<MavenPublication> {
+        pom {
+            name.set("Firebase Auth KMP")
+            description.set("Firebase Authentication library for Kotlin Multiplatform (Android & iOS)")
+            url.set("https://github.com/com3run/testauth")
+
+            licenses {
+                license {
+                    name.set("MIT License")
+                    url.set("https://opensource.org/licenses/MIT")
+                }
+            }
+
+            developers {
+                developer {
+                    id.set("com3run")
+                    name.set("Kamran Mammadov")
+                }
+            }
+
+            scm {
+                connection.set("scm:git:git://github.com/com3run/testauth.git")
+                developerConnection.set("scm:git:ssh://github.com/com3run/testauth.git")
+                url.set("https://github.com/com3run/testauth")
+            }
+        }
     }
 }

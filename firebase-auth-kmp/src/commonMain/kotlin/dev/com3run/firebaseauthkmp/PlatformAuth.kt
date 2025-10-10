@@ -1,4 +1,4 @@
-package az.random.firebaseauth
+package dev.com3run.firebaseauthkmp
 
 expect fun platformAuthBackend(): AuthBackend
 

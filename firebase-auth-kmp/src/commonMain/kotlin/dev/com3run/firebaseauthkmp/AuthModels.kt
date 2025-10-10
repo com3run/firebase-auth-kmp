@@ -1,4 +1,4 @@
-package az.random.firebaseauth
+package dev.com3run.firebaseauthkmp
 
 /**
  * Common auth models to keep the domain independent from platform SDKs.

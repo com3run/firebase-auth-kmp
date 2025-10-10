@@ -1,8 +1,8 @@
 package az.random.testauth.di
 
-import az.random.firebaseauth.AuthBackend
-import az.random.firebaseauth.AuthRepository
-import az.random.firebaseauth.platformAuthBackend
+import dev.com3run.firebaseauthkmp.AuthBackend
+import dev.com3run.firebaseauthkmp.AuthRepository
+import dev.com3run.firebaseauthkmp.platformAuthBackend
 import az.random.testauth.ui.AuthViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf

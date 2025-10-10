@@ -1,70 +1,242 @@
-This is a Kotlin Multiplatform project targeting Android and iOS.
+# Firebase Auth KMP
 
-What's included for Authentication (TDD):
-- Common auth domain in composeApp/src/commonMain/kotlin/az/random/testauth/auth
-  - AuthRepository: high-level API for sign-in with Google, Apple, Facebook, Anonymous, plus sign-out and state flow.
-  - AuthBackend: interface to be implemented per-platform (Android/iOS) using Firebase Auth SDKs.
-  - Models: AuthUser, AuthResult, AuthError.
-- Tests in composeApp/src/commonTest/kotlin/az/random/testauth/auth define the expected behavior first (TDD) and currently all pass using a fake backend.
+[![](https://jitpack.io/v/com3run/testauth.svg)](https://jitpack.io/#com3run/testauth)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-How to run tests
-- From IDE: run the AuthRepositoryTest class.
-- From terminal: ./gradlew :composeApp:check
+A Kotlin Multiplatform library that provides Firebase Authentication for Android and iOS with a unified API.
 
-Sample UI for testing
-- The app now includes a simple cross-platform Compose screen to try Anonymous and Google sign-in.
-- It shows current auth state, and provides:
-  - "Sign in Anonymously" button
-  - A text field to paste a Google ID Token and a "Sign in with Google (token)" button
-  - "Sign out" button
-- This works on both Android and iOS. For Google sign-in, you can obtain an ID token using native platform flows (e.g., Google Sign-In on Android/iOS) and paste it into the field to test the backend wiring.
+## Features
 
-Real Firebase integration
-1) Android (implemented):
-   - Backend: composeApp/src/androidMain/kotlin/az/random/testauth/auth/AndroidFirebaseAuthBackend.kt implements AuthBackend using Firebase Auth (firebase-auth-ktx).
-   - Dependency already added in composeApp/androidMain (libs.firebase-auth-ktx).
-   - Runtime setup needed: supply google-services.json in composeApp module (or initialize FirebaseApp programmatically). Sign-in token acquisition (Google/Facebook/Apple) happens in UI; pass the token strings into AuthRepository methods.
-   - Usage example:
-     val repo = az.random.testauth.auth.AuthRepository(
-         az.random.testauth.auth.AndroidFirebaseAuthBackend()
-     )
-     // Google: repo.signInWithGoogle(idToken)
-     // Facebook: repo.signInWithFacebook(accessToken)
-     // Apple (OIDC): repo.signInWithApple(idToken)
-     // Anonymous: repo.signInAnonymously()
-2) iOS (to be finalized):
-   - A placeholder IosFirebaseAuthBackend exists in composeApp/iosMain. To enable real auth:
-     - Add Firebase Auth to iosApp via SPM or CocoaPods and configure GoogleService-Info.plist.
-     - Expose FirebaseAuth calls to Kotlin/Native and map to AuthUser in IosFirebaseAuthBackend.
-   - After you share the plist and provider configs (Google/Facebook/Apple), we will wire the actual iOS implementation.
-3) Keep tests green: no change needed; tests target the common contract and use a fake backend.
+- ✅ **Cross-platform**: Single codebase for Android & iOS
+- 🔐 **Authentication Methods**:
+  - Email/Password (Sign up & Sign in)
+  - Google Sign-In
+  - Apple Sign-In (iOS)
+  - Anonymous Authentication
+  - Facebook Sign-In (coming soon)
+- 🔄 **Real-time Auth State**: Flow-based auth state monitoring
+- 🧪 **Testable**: Includes FakeAuthBackend for unit testing
+- 📱 **Platform-optimized**: Uses native Firebase SDKs on both platforms
 
-Folder overview
+## Installation
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
+### Step 1: Add JitPack Repository
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+Add JitPack to your project's `settings.gradle.kts`:
 
-Build and Run Android Application
+```kotlin
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }  // Add this
+    }
+}
+```
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ./gradlew :composeApp:assembleDebug
-- on Windows
-  .\gradlew.bat :composeApp:assembleDebug
+### Step 2: Add Dependency
 
-Build and Run iOS Application
+In your module's `build.gradle.kts`:
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("com.github.com3run:testauth:1.0.0")
+        }
+    }
+}
+```
+
+## Quick Start
+
+### Android Setup
+
+1. Add `google-services.json` to your `composeApp/` directory
+2. Set up Activity reference in your `MainActivity`:
+
+```kotlin
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import dev.com3run.firebaseauthkmp.ActivityHolder
+import dev.com3run.firebaseauthkmp.GoogleSignInInterop
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ActivityHolder.current = this
+
+        setContent {
+            // Your app content
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ActivityHolder.current = null
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        GoogleSignInInterop.onActivityResult(requestCode, resultCode, data)
+    }
+}
+```
+
+### iOS Setup
+
+1. Add `GoogleService-Info.plist` to your iOS app
+2. Create `FirebaseAuthBridge.swift` (see [LIBRARY_INTEGRATION.md](LIBRARY_INTEGRATION.md) for full code)
+3. Initialize in AppDelegate:
+
+```swift
+import Firebase
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        FirebaseAuthBridge.shared.start()
+        return true
+    }
+}
+```
+
+## Usage
+
+### Basic Authentication
+
+```kotlin
+import dev.com3run.firebaseauthkmp.AuthRepository
+import dev.com3run.firebaseauthkmp.platformAuthBackend
+
+// Create auth repository
+val authRepository = AuthRepository(platformAuthBackend())
+
+// Listen to auth state
+authRepository.authState.collect { user ->
+    if (user != null) {
+        println("Signed in: ${user.email}")
+    } else {
+        println("Signed out")
+    }
+}
+```
+
+### Sign In with Email/Password
+
+```kotlin
+val result = authRepository.signInWithEmailAndPassword(
+    email = "user@example.com",
+    password = "password123"
+)
+
+when (result) {
+    is AuthResult.Success -> println("Welcome ${result.user.displayName}!")
+    is AuthResult.Failure -> println("Error: ${result.error}")
+}
+```
+
+### Sign In with Google
+
+```kotlin
+// Request ID token using platform-specific flow
+val idToken = requestGoogleIdToken()
+
+if (idToken != null) {
+    val result = authRepository.signInWithGoogle(idToken)
+    when (result) {
+        is AuthResult.Success -> println("Google sign-in successful!")
+        is AuthResult.Failure -> println("Error: ${result.error}")
+    }
+}
+```
+
+### Sign In Anonymously
+
+```kotlin
+val result = authRepository.signInAnonymously()
+
+when (result) {
+    is AuthResult.Success -> println("Signed in as guest!")
+    is AuthResult.Failure -> println("Error: ${result.error}")
+}
+```
+
+### Sign Out
+
+```kotlin
+authRepository.signOut()
+```
+
+## Documentation
+
+- [Library Integration Guide](LIBRARY_INTEGRATION.md) - Complete setup instructions
+- [Maven Publishing Guide](MAVEN_PUBLISH.md) - How to publish the library
+- [Usage Examples](USAGE_EXAMPLES.md) - More code examples
+
+## Architecture
+
+The library uses a clean architecture approach:
+
+- **AuthRepository**: High-level API for authentication operations
+- **AuthBackend**: Platform-specific interface (Android/iOS implementations)
+- **AuthModels**: Common data models (AuthUser, AuthResult, AuthError)
+
+### iOS Bridge Architecture
+
+On iOS, the library uses an elegant notification-based bridge between Kotlin and Swift:
+1. Kotlin sends requests via NSNotificationCenter
+2. Swift receives notifications and calls native Firebase Auth SDK
+3. Swift sends responses back via NSNotificationCenter
+4. Kotlin resumes suspended coroutines with results
+
+This approach keeps the UI thread responsive and provides a seamless async experience.
+
+## Testing
+
+The library includes `FakeAuthBackend` for unit testing:
+
+```kotlin
+import dev.com3run.firebaseauthkmp.FakeAuthBackend
+import dev.com3run.firebaseauthkmp.AuthRepository
+
+val fakeBackend = FakeAuthBackend()
+val authRepository = AuthRepository(fakeBackend)
+
+// Use in tests
+```
+
+## Sample App
+
+This repository includes a complete sample app demonstrating all authentication methods. Run the `composeApp` module to see it in action.
+
+## Requirements
+
+- Kotlin 2.0+
+- Android API 24+
+- iOS 13.0+
+- Firebase project with Authentication enabled
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Credits
+
+Created by [Kamran Mammadov](https://github.com/com3run)
+
+## Support
+
+- 📚 [Full Documentation](LIBRARY_INTEGRATION.md)
+- 🐛 [Report Issues](https://github.com/com3run/testauth/issues)
+- ⭐ Star this repo if you find it helpful!
 
 ---
 
-Learn more about Kotlin Multiplatform: https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html
+Made with ❤️ using Kotlin Multiplatform

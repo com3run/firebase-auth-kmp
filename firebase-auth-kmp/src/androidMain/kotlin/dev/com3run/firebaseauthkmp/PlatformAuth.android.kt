@@ -1,4 +1,4 @@
-package az.random.firebaseauth
+package dev.com3run.firebaseauthkmp
 
 import android.app.Activity
 import android.content.Intent

@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import az.random.firebaseauth.isAppleSignInAvailable
-import az.random.firebaseauth.requestAppleIdToken
-import az.random.firebaseauth.requestGoogleIdToken
+import dev.com3run.firebaseauthkmp.isAppleSignInAvailable
+import dev.com3run.firebaseauthkmp.requestAppleIdToken
+import dev.com3run.firebaseauthkmp.requestGoogleIdToken
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 

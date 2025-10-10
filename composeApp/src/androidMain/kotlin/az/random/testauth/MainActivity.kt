@@ -7,8 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import az.random.firebaseauth.ActivityHolder
-import az.random.firebaseauth.GoogleSignInInterop
+import dev.com3run.firebaseauthkmp.ActivityHolder
+import dev.com3run.firebaseauthkmp.GoogleSignInInterop
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

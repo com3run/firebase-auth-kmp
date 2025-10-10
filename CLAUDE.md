@@ -14,7 +14,7 @@ This is a **Kotlin Multiplatform (KMP)** Firebase Authentication library targeti
 ./gradlew :composeApp:check
 
 # Run specific test class
-./gradlew :composeApp:testDebugUnitTest --tests "az.random.testauth.auth.AuthRepositoryTest"
+./gradlew :composeApp:testDebugUnitTest --tests "dev.com3run.testauth.auth.AuthRepositoryTest"
 
 # Build Android debug APK
 ./gradlew :composeApp:assembleDebug
@@ -165,7 +165,7 @@ When working with account linking/unlinking operations, use these provider IDs:
 
 ## Package Structure
 
-All code resides in `az.random.testauth` package. The auth library is specifically in `az.random.testauth.auth` namespace.
+All code resides in `dev.com3run.testauth` package. The auth library is specifically in `dev.com3run.testauth.auth` namespace.
 
 ## Build Configuration
 

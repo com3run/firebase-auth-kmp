@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalObjCName::class)
 
-package az.random.firebaseauth
+package dev.com3run.firebaseauthkmp
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

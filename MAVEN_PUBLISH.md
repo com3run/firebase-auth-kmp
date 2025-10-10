@@ -6,7 +6,7 @@ This guide explains how to publish the Firebase Auth KMP library to different Ma
 
 The library is configured to publish to Maven repositories with the following coordinates:
 
-- **Group ID:** `az.random`
+- **Group ID:** `dev.com3run`
 - **Artifact ID:** `firebase-auth-kmp`
 - **Version:** `1.0.0`
 
@@ -54,7 +54,7 @@ Then add the dependency:
 
 ```kotlin
 dependencies {
-    implementation("az.random:firebase-auth-kmp:1.0.0")
+    implementation("dev.com3run:firebase-auth-kmp:1.0.0")
 }
 ```
 
@@ -70,7 +70,7 @@ Maven Central is the standard repository for open-source libraries. This makes y
    - Go to https://issues.sonatype.org/
    - Create an account
    - Create a ticket to request a new project
-   - Example: "Request for az.random group ID"
+   - Example: "Request for dev.com3run group ID"
    - Wait for approval (usually 1-2 business days)
 
 2. **Generate GPG Keys**
@@ -113,7 +113,7 @@ plugins {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "az.random"
+            groupId = "dev.com3run"
             artifactId = "firebase-auth-kmp"
             version = "1.0.0"
 
@@ -197,7 +197,7 @@ GitHub Packages provides a simple way to host Maven packages on GitHub.
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "az.random"
+            groupId = "dev.com3run"
             artifactId = "firebase-auth-kmp"
             version = "1.0.0"
 
@@ -308,7 +308,7 @@ Follow semantic versioning (MAJOR.MINOR.PATCH):
 In `firebase-auth-kmp/build.gradle.kts`:
 
 ```kotlin
-group = "az.random"
+group = "dev.com3run"
 version = "1.1.0"  // Update this
 ```
 

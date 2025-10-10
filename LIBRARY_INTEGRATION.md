@@ -6,7 +6,7 @@ This guide explains how to integrate the Firebase Auth KMP library into your Kot
 
 **Firebase Auth KMP** is a Kotlin Multiplatform library that provides Firebase Authentication for Android and iOS with a unified API.
 
-**Group ID:** `az.random`
+**Group ID:** `dev.com3run`
 **Artifact ID:** `firebase-auth-kmp`
 **Version:** `1.0.0`
 
@@ -38,7 +38,7 @@ In your module's `build.gradle.kts`:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("az.random:firebase-auth-kmp:1.0.0")
+            implementation("dev.com3run:firebase-auth-kmp:1.0.0")
         }
     }
 }
@@ -52,7 +52,7 @@ Once published to Maven Central, no need to add `mavenLocal()`, just add the dep
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("az.random:firebase-auth-kmp:1.0.0")
+            implementation("dev.com3run:firebase-auth-kmp:1.0.0")
         }
     }
 }
@@ -92,8 +92,8 @@ The library needs a reference to the current Activity for Google Sign-In. In you
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import az.random.firebaseauth.ActivityHolder
-import az.random.firebaseauth.GoogleSignInInterop
+import dev.com3run.firebaseauthkmp.ActivityHolder
+import dev.com3run.firebaseauthkmp.GoogleSignInInterop
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -424,8 +424,8 @@ In Xcode:
 ### Basic Setup
 
 ```kotlin
-import az.random.firebaseauth.AuthRepository
-import az.random.firebaseauth.platformAuthBackend
+import dev.com3run.firebaseauthkmp.AuthRepository
+import dev.com3run.firebaseauthkmp.platformAuthBackend
 
 // Create auth repository
 val authRepository = AuthRepository(platformAuthBackend())
@@ -534,7 +534,7 @@ Using Koin:
 
 ```kotlin
 import org.koin.dsl.module
-import az.random.firebaseauth.*
+import dev.com3run.firebaseauthkmp.*
 
 val authModule = module {
     single<AuthBackend> { platformAuthBackend() }
@@ -572,8 +572,8 @@ when (result) {
 The library includes a `FakeAuthBackend` for testing:
 
 ```kotlin
-import az.random.firebaseauth.FakeAuthBackend
-import az.random.firebaseauth.AuthRepository
+import dev.com3run.firebaseauthkmp.FakeAuthBackend
+import dev.com3run.firebaseauthkmp.AuthRepository
 
 val fakeBackend = FakeAuthBackend()
 val authRepository = AuthRepository(fakeBackend)
