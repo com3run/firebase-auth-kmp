@@ -2,12 +2,9 @@
 
 package az.random.testauth.auth
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
-import platform.Foundation.NSLog
 import platform.Foundation.NSNotification
 import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSOperationQueue
@@ -15,13 +12,13 @@ import platform.Foundation.NSUUID
 import kotlin.coroutines.resume
 import kotlin.experimental.ExperimentalObjCName
 
-// iOS logging helper
+// iOS logging helper - safe string formatting
 private fun logDebug(tag: String, message: String) {
-    NSLog("[%@] %@", tag, message)
+    println("[$tag] $message")
 }
 
 private fun logError(tag: String, message: String) {
-    NSLog("[ERROR][%@] %@", tag, message)
+    println("[ERROR][$tag] $message")
 }
 
 actual fun platformAuthBackend(): AuthBackend = IosFirebaseAuthBackend()
@@ -247,76 +244,74 @@ class IosFirebaseAuthBackend : AuthBackend {
     private suspend fun performAuthRequest(
         action: String,
         params: Map<String, Any> = emptyMap()
-    ): AuthResult = withContext(Dispatchers.Main) {
-        suspendCancellableCoroutine { continuation ->
-            val requestId = NSUUID().UUIDString
-            var observer: Any? = null
+    ): AuthResult = suspendCancellableCoroutine { continuation ->
+        val requestId = NSUUID().UUIDString
+        var observer: Any? = null
 
-            logDebug("FirebaseAuth", "Sending auth request: action=$action, requestId=$requestId")
+        logDebug("FirebaseAuth", "Sending auth request: action=$action, requestId=$requestId")
 
-            // Set up listener for response BEFORE sending request
-            observer = center.addObserverForName(
-                name = "AuthResponse",
-                `object` = null,
-                queue = NSOperationQueue.mainQueue
-            ) { notification: NSNotification? ->
-                val responseInfo = notification?.userInfo as? Map<*, *> ?: return@addObserverForName
-                val responseId = responseInfo["requestId"] as? String
+        // Set up listener for response BEFORE sending request
+        observer = center.addObserverForName(
+            name = "AuthResponse",
+            `object` = null,
+            queue = NSOperationQueue.mainQueue
+        ) { notification: NSNotification? ->
+            val responseInfo = notification?.userInfo as? Map<*, *> ?: return@addObserverForName
+            val responseId = responseInfo["requestId"] as? String
 
-                // Only process responses matching our request ID
-                if (responseId != requestId) return@addObserverForName
+            // Only process responses matching our request ID
+            if (responseId != requestId) return@addObserverForName
 
-                logDebug("FirebaseAuth", "Received auth response for requestId=$requestId")
+            logDebug("FirebaseAuth", "Received auth response for requestId=$requestId")
 
-                // Clean up observer
-                observer?.let { center.removeObserver(it) }
+            // Clean up observer
+            observer?.let { center.removeObserver(it) }
 
-                // Parse response
-                val status = responseInfo["status"] as? String
-                val result = when (status) {
-                    "success" -> {
-                        val user = responseInfo.toAuthUser()
-                        logDebug("FirebaseAuth", "Auth request successful")
-                        AuthResult.Success(user ?: AuthUser(uid = "", isAnonymous = true))
-                    }
-                    else -> {
-                        val errorMessage = responseInfo["errorMessage"] as? String
-                            ?: "Unknown error"
-                        val errorCode = responseInfo["errorCode"] as? String
+            // Parse response
+            val status = responseInfo["status"] as? String
+            val result = when (status) {
+                "success" -> {
+                    val user = responseInfo.toAuthUser()
+                    logDebug("FirebaseAuth", "Auth request successful")
+                    AuthResult.Success(user ?: AuthUser(uid = "", isAnonymous = true))
+                }
+                else -> {
+                    val errorMessage = responseInfo["errorMessage"] as? String
+                        ?: "Unknown error"
+                    val errorCode = responseInfo["errorCode"] as? String
 
-                        logError("FirebaseAuth", "Auth request failed: code=$errorCode, message=$errorMessage")
+                    logError("FirebaseAuth", "Auth request failed: code=$errorCode, message=$errorMessage")
 
-                        AuthResult.Failure(
-                            AuthError.Unknown(
-                                Exception("[$errorCode] $errorMessage")
-                            )
+                    AuthResult.Failure(
+                        AuthError.Unknown(
+                            Exception("[$errorCode] $errorMessage")
                         )
-                    }
-                }
-
-                // Resume coroutine with result
-                if (continuation.isActive) {
-                    continuation.resume(result)
+                    )
                 }
             }
 
-            // Send the request
-            val requestInfo = buildMap {
-                put("requestId", requestId)
-                put("action", action)
-                putAll(params)
+            // Resume coroutine with result
+            if (continuation.isActive) {
+                continuation.resume(result)
             }
+        }
 
-            center.postNotificationName(
-                aName = "AuthRequest",
-                `object` = null,
-                userInfo = requestInfo as Map<Any?, *>
-            )
+        // Send the request
+        val requestInfo = buildMap {
+            put("requestId", requestId)
+            put("action", action)
+            putAll(params)
+        }
 
-            // Clean up if coroutine is cancelled
-            continuation.invokeOnCancellation {
-                observer?.let { center.removeObserver(it) }
-            }
+        center.postNotificationName(
+            aName = "AuthRequest",
+            `object` = null,
+            userInfo = requestInfo as Map<Any?, *>
+        )
+
+        // Clean up if coroutine is cancelled
+        continuation.invokeOnCancellation {
+            observer?.let { center.removeObserver(it) }
         }
     }
 }
@@ -327,95 +322,91 @@ class IosFirebaseAuthBackend : AuthBackend {
  * This is like requesting a Google Sign-In dialog to appear,
  * and waiting for the user to complete it
  */
-actual suspend fun requestGoogleIdToken(): String? = withContext(Dispatchers.Main) {
-    suspendCancellableCoroutine { continuation ->
-        val center = NSNotificationCenter.defaultCenter
-        var observer: Any? = null
+actual suspend fun requestGoogleIdToken(): String? = suspendCancellableCoroutine { continuation ->
+    val center = NSNotificationCenter.defaultCenter
+    var observer: Any? = null
 
-        logDebug("GoogleSignIn", "Requesting Google ID token")
+    logDebug("GoogleSignIn", "Requesting Google ID token")
 
-        // Listen for completion
-        observer = center.addObserverForName(
-            name = "GoogleSignInCompleted",
-            `object` = null,
-            queue = NSOperationQueue.mainQueue
-        ) { notification: NSNotification? ->
-            val userInfo = notification?.userInfo as? Map<*, *>
-            val idToken = userInfo?.get("idToken") as? String
+    // Listen for completion
+    observer = center.addObserverForName(
+        name = "GoogleSignInCompleted",
+        `object` = null,
+        queue = NSOperationQueue.mainQueue
+    ) { notification: NSNotification? ->
+        val userInfo = notification?.userInfo as? Map<*, *>
+        val idToken = userInfo?.get("idToken") as? String
 
-            if (idToken != null) {
-                logDebug("GoogleSignIn", "Successfully got Google ID token")
-            } else {
-                logError("GoogleSignIn", "Failed to get Google ID token (null)")
-            }
-
-            // Clean up
-            observer?.let { center.removeObserver(it) }
-
-            // Resume with result
-            if (continuation.isActive) {
-                continuation.resume(idToken)
-            }
+        if (idToken != null) {
+            logDebug("GoogleSignIn", "Successfully got Google ID token")
+        } else {
+            logError("GoogleSignIn", "Failed to get Google ID token (null)")
         }
 
-        // Trigger the sign-in flow
-        logDebug("GoogleSignIn", "Sending GoogleSignInRequest notification")
-        center.postNotificationName(
-            aName = "GoogleSignInRequest",
-            `object` = null,
-            userInfo = null
-        )
+        // Clean up
+        observer?.let { center.removeObserver(it) }
 
-        // Clean up on cancellation
-        continuation.invokeOnCancellation {
-            observer?.let { center.removeObserver(it) }
+        // Resume with result
+        if (continuation.isActive) {
+            continuation.resume(idToken)
         }
+    }
+
+    // Trigger the sign-in flow
+    logDebug("GoogleSignIn", "Sending GoogleSignInRequest notification")
+    center.postNotificationName(
+        aName = "GoogleSignInRequest",
+        `object` = null,
+        userInfo = null
+    )
+
+    // Clean up on cancellation
+    continuation.invokeOnCancellation {
+        observer?.let { center.removeObserver(it) }
     }
 }
 
-actual suspend fun requestAppleIdToken(): String? = withContext(Dispatchers.Main) {
-    suspendCancellableCoroutine { continuation ->
-        val center = NSNotificationCenter.defaultCenter
-        var observer: Any? = null
+actual suspend fun requestAppleIdToken(): String? = suspendCancellableCoroutine { continuation ->
+    val center = NSNotificationCenter.defaultCenter
+    var observer: Any? = null
 
-        logDebug("AppleSignIn", "Requesting Apple ID token")
+    logDebug("AppleSignIn", "Requesting Apple ID token")
 
-        // Listen for completion
-        observer = center.addObserverForName(
-            name = "AppleSignInCompleted",
-            `object` = null,
-            queue = NSOperationQueue.mainQueue
-        ) { notification: NSNotification? ->
-            val userInfo = notification?.userInfo as? Map<*, *>
-            val idToken = userInfo?.get("idToken") as? String
+    // Listen for completion
+    observer = center.addObserverForName(
+        name = "AppleSignInCompleted",
+        `object` = null,
+        queue = NSOperationQueue.mainQueue
+    ) { notification: NSNotification? ->
+        val userInfo = notification?.userInfo as? Map<*, *>
+        val idToken = userInfo?.get("idToken") as? String
 
-            if (idToken != null) {
-                logDebug("AppleSignIn", "Successfully got Apple ID token")
-            } else {
-                logError("AppleSignIn", "Failed to get Apple ID token (null)")
-            }
-
-            // Clean up
-            observer?.let { center.removeObserver(it) }
-
-            // Resume with result
-            if (continuation.isActive) {
-                continuation.resume(idToken)
-            }
+        if (idToken != null) {
+            logDebug("AppleSignIn", "Successfully got Apple ID token")
+        } else {
+            logError("AppleSignIn", "Failed to get Apple ID token (null)")
         }
 
-        // Trigger the sign-in flow
-        logDebug("AppleSignIn", "Sending AppleSignInRequest notification")
-        center.postNotificationName(
-            aName = "AppleSignInRequest",
-            `object` = null,
-            userInfo = null
-        )
+        // Clean up
+        observer?.let { center.removeObserver(it) }
 
-        // Clean up on cancellation
-        continuation.invokeOnCancellation {
-            observer?.let { center.removeObserver(it) }
+        // Resume with result
+        if (continuation.isActive) {
+            continuation.resume(idToken)
         }
+    }
+
+    // Trigger the sign-in flow
+    logDebug("AppleSignIn", "Sending AppleSignInRequest notification")
+    center.postNotificationName(
+        aName = "AppleSignInRequest",
+        `object` = null,
+        userInfo = null
+    )
+
+    // Clean up on cancellation
+    continuation.invokeOnCancellation {
+        observer?.let { center.removeObserver(it) }
     }
 }
 
