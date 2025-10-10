@@ -410,6 +410,8 @@ actual suspend fun requestAppleIdToken(): String? = suspendCancellableCoroutine 
     }
 }
 
+actual fun isAppleSignInAvailable(): Boolean = true
+
 /**
  * Extension to safely convert notification userInfo to AuthUser
  */

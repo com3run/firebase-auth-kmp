@@ -8,3 +8,6 @@ expect suspend fun requestGoogleIdToken(): String?
 
 expect suspend fun requestAppleIdToken(): String?
 
+// Returns true if Apple Sign-In is available on this platform (iOS only)
+expect fun isAppleSignInAvailable(): Boolean
+

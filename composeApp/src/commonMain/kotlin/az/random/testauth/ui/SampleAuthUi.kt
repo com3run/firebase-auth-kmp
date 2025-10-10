@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import az.random.testauth.auth.isAppleSignInAvailable
+import az.random.testauth.auth.requestAppleIdToken
 import az.random.testauth.auth.requestGoogleIdToken
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
@@ -189,15 +191,27 @@ fun AuthScreen(viewModel: AuthViewModel) {
                 Text("Sign in with Google")
             }
 
-            Button(
-                onClick = { /* TODO: Implement Apple Sign In */ },
-                modifier = Modifier.fillMaxWidth(),
-                enabled = uiState !is AuthUiState.Loading,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary
-                )
-            ) {
-                Text("Sign in with Apple")
+            // Show Apple Sign-In button only on iOS
+            if (isAppleSignInAvailable()) {
+                Button(
+                    onClick = {
+                        scope.launch {
+                            val idToken = requestAppleIdToken()
+                            if (idToken != null) {
+                                viewModel.signInWithApple(idToken)
+                            } else {
+                                // Handle cancellation or error
+                            }
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = uiState !is AuthUiState.Loading,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.tertiary
+                    )
+                ) {
+                    Text("Sign in with Apple")
+                }
             }
 
             HorizontalDivider()

@@ -89,6 +89,8 @@ actual suspend fun requestAppleIdToken(): String? {
     return null
 }
 
+actual fun isAppleSignInAvailable(): Boolean = false
+
 // Helper to safely resume continuation only once
 private fun <T> safeResume(cont: kotlin.coroutines.Continuation<T>, value: T) {
     try {

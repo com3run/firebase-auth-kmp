@@ -103,6 +103,20 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
         }
     }
 
+    fun signInWithApple(idToken: String) {
+        viewModelScope.launch {
+            _uiState.value = AuthUiState.Loading
+            when (val result = authRepository.signInWithApple(idToken)) {
+                is AuthResult.Success -> {
+                    // State will be updated by the authState collector
+                }
+                is AuthResult.Failure -> {
+                    _uiState.value = AuthUiState.Error(mapError(result.error))
+                }
+            }
+        }
+    }
+
     private fun mapError(error: AuthError): String = when (error) {
         AuthError.InvalidCredential -> "Invalid credentials"
         AuthError.InvalidEmailOrPassword -> "Invalid email or password"
