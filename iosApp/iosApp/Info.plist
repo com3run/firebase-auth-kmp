@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	
+	<!-- URL scheme needed for Google OAuth redirect (uses REVERSED_CLIENT_ID) -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.688037677707-pbn9jnki7qijn0ptcji12i545utcbt2a</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
