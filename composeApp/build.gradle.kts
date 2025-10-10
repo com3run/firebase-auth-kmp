@@ -32,14 +32,14 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.firebase.auth.ktx)
-            // Google Play Services Auth for GoogleSignIn APIs used by PlatformAuth.android
-            implementation("com.google.android.gms:play-services-auth:21.2.0")
             implementation(libs.androidx.navigation.compose)
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
         }
         commonMain.dependencies {
+            // Firebase Auth KMP Library
+            implementation(project(":firebase-auth-kmp"))
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)

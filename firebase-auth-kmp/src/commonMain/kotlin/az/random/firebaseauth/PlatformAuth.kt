@@ -1,4 +1,4 @@
-package az.random.testauth.auth
+package az.random.firebaseauth
 
 expect fun platformAuthBackend(): AuthBackend
 

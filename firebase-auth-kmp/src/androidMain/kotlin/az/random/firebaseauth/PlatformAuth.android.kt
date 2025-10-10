@@ -1,4 +1,4 @@
-package az.random.testauth.auth
+package az.random.firebaseauth
 
 import android.app.Activity
 import android.content.Intent
@@ -14,12 +14,12 @@ import kotlin.coroutines.resume
 actual fun platformAuthBackend(): AuthBackend = AndroidFirebaseAuthBackend()
 
 // Holds a weak reference to current Activity to be used by platform flows
-internal object ActivityHolder {
+object ActivityHolder {
     @Volatile
     var current: Activity? = null
 }
 
-internal object GoogleSignInInterop {
+object GoogleSignInInterop {
     private const val RC_GOOGLE_SIGN_IN = 9001
     private var pending: ((requestCode: Int, resultCode: Int, data: Intent?) -> Unit)? = null
 

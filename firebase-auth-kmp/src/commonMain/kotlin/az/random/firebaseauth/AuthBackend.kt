@@ -1,4 +1,4 @@
-package az.random.testauth.auth
+package az.random.firebaseauth
 
 import kotlinx.coroutines.flow.StateFlow
 

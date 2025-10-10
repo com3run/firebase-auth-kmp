@@ -1,4 +1,4 @@
-package az.random.testauth.auth
+package az.random.firebaseauth
 
 import android.util.Log
 import com.google.android.gms.tasks.Task

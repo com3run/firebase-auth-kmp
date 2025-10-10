@@ -1,4 +1,4 @@
-package az.random.testauth.auth
+package az.random.firebaseauth
 
 /**
  * Common auth models to keep the domain independent from platform SDKs.

@@ -2,9 +2,9 @@ package az.random.testauth.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import az.random.testauth.auth.AuthError
-import az.random.testauth.auth.AuthRepository
-import az.random.testauth.auth.AuthResult
+import az.random.firebaseauth.AuthError
+import az.random.firebaseauth.AuthRepository
+import az.random.firebaseauth.AuthResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
