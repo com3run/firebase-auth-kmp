@@ -1,50 +1,60 @@
 # Firebase Auth KMP
 
-[![](https://jitpack.io/v/com3run/testauth.svg)](https://jitpack.io/#com3run/testauth)
+[![Maven Central](https://img.shields.io/maven-central/v/dev.com3run/firebase-auth-kmp.svg)](https://central.sonatype.com/artifact/dev.com3run/firebase-auth-kmp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A Kotlin Multiplatform library that provides Firebase Authentication for Android and iOS with a unified API.
+A production-ready Kotlin Multiplatform library that provides Firebase Authentication for Android and iOS with a unified, type-safe API.
 
 ## Features
 
 - ✅ **Cross-platform**: Single codebase for Android & iOS
-- 🔐 **Authentication Methods**:
+- 🔐 **Complete Authentication**:
   - Email/Password (Sign up & Sign in)
   - Google Sign-In
   - Apple Sign-In (iOS)
   - Anonymous Authentication
   - Facebook Sign-In (coming soon)
 - 🔄 **Real-time Auth State**: Flow-based auth state monitoring
+- 🛡️ **Type-safe**: Kotlin-first API with sealed classes for results
 - 🧪 **Testable**: Includes FakeAuthBackend for unit testing
 - 📱 **Platform-optimized**: Uses native Firebase SDKs on both platforms
+- 🚀 **Production-ready**: Published on Maven Central
 
 ## Installation
 
-### Step 1: Add JitPack Repository
+### Maven Central (Recommended)
 
-Add JitPack to your project's `settings.gradle.kts`:
-
-```kotlin
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://jitpack.io") }  // Add this
-    }
-}
-```
-
-### Step 2: Add Dependency
-
-In your module's `build.gradle.kts`:
+Add the dependency to your `commonMain` source set:
 
 ```kotlin
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("com.github.com3run:testauth:1.0.0")
+            implementation("dev.com3run:firebase-auth-kmp:1.0.0")
         }
     }
+}
+```
+
+That's it! No need to add any special repositories - Maven Central is already configured by default.
+
+### Alternative: JitPack
+
+If you prefer JitPack, add the repository and dependency:
+
+```kotlin
+// settings.gradle.kts
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+
+// build.gradle.kts
+commonMain.dependencies {
+    implementation("com.github.com3run:testauth:1.0.0")
 }
 ```
 
@@ -87,7 +97,7 @@ class MainActivity : ComponentActivity() {
 ### iOS Setup
 
 1. Add `GoogleService-Info.plist` to your iOS app
-2. Create `FirebaseAuthBridge.swift` (see [LIBRARY_INTEGRATION.md](LIBRARY_INTEGRATION.md) for full code)
+2. Create `FirebaseAuthBridge.swift` (see [docs/LIBRARY_INTEGRATION.md](docs/LIBRARY_INTEGRATION.md) for full code)
 3. Initialize in AppDelegate:
 
 ```swift
@@ -172,15 +182,17 @@ authRepository.signOut()
 
 ## Documentation
 
-- [Library Integration Guide](LIBRARY_INTEGRATION.md) - Complete setup instructions
-- [Maven Publishing Guide](MAVEN_PUBLISH.md) - How to publish the library
-- [Usage Examples](USAGE_EXAMPLES.md) - More code examples
+- 📘 [Library Integration Guide](docs/LIBRARY_INTEGRATION.md) - Complete setup instructions
+- 📖 [Usage Examples](docs/USAGE_EXAMPLES.md) - More code examples and patterns
+- 🔧 [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
+- 🍎 [Apple Sign-In Guide](docs/APPLE_SIGNIN_GUIDE.md) - iOS-specific setup
+- 🚀 [Publishing Guide](docs/MAVEN_CENTRAL_SETUP.md) - How to publish to Maven Central
 
 ## Architecture
 
-The library uses a clean architecture approach:
+The library follows clean architecture principles:
 
-- **AuthRepository**: High-level API for authentication operations
+- **AuthRepository**: High-level API for authentication operations with validation
 - **AuthBackend**: Platform-specific interface (Android/iOS implementations)
 - **AuthModels**: Common data models (AuthUser, AuthResult, AuthError)
 
@@ -227,15 +239,16 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## Links
+
+- 📦 [Maven Central](https://central.sonatype.com/artifact/dev.com3run/firebase-auth-kmp)
+- 📚 [Full Documentation](docs/LIBRARY_INTEGRATION.md)
+- 🐛 [Report Issues](https://github.com/com3run/testauth/issues)
+- ⭐ [Star on GitHub](https://github.com/com3run/testauth)
+
 ## Credits
 
 Created by [Kamran Mammadov](https://github.com/com3run)
-
-## Support
-
-- 📚 [Full Documentation](LIBRARY_INTEGRATION.md)
-- 🐛 [Report Issues](https://github.com/com3run/testauth/issues)
-- ⭐ Star this repo if you find it helpful!
 
 ---
 

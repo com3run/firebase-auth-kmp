@@ -27,3 +27,8 @@ gradle.properties
 secring.gpg
 *.asc
 private-key.txt
+
+# Publishing artifacts
+*.md5
+*.sha1
+*.zip

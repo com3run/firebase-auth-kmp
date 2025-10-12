@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     id("maven-publish")
     id("signing")
+    id("com.gradleup.nmcp") version "0.0.8"
 }
 
 group = "dev.com3run"
@@ -60,19 +61,6 @@ android {
 publishing {
     repositories {
         mavenLocal()
-
-        // Maven Central via Sonatype OSSRH
-        maven {
-            name = "OSSRH"
-            val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
-
-            credentials {
-                username = project.findProperty("ossrhUsername") as String? ?: System.getenv("OSSRH_USERNAME")
-                password = project.findProperty("ossrhPassword") as String? ?: System.getenv("OSSRH_PASSWORD")
-            }
-        }
     }
 
     publications.withType<MavenPublication> {
@@ -92,7 +80,7 @@ publishing {
                 developer {
                     id.set("com3run")
                     name.set("Kamran Mammadov")
-                    email.set("your.email@example.com")
+                    email.set("info@com3run.dev")
                 }
             }
 

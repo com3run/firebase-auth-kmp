@@ -13,7 +13,7 @@
 # Get these from: https://issues.sonatype.org/
 # After creating your Sonatype account and getting approval for dev.com3run group ID
 
-ossrhUsername=your-sonatype-username
+ossrhUsername=Kamran Mammadov
 ossrhPassword=your-sonatype-password
 
 # ===================================
