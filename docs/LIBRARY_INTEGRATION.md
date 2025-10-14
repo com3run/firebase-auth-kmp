@@ -608,7 +608,7 @@ Check out the `composeApp` module in this repository for a complete working exam
 ## Support
 
 For issues and questions:
-- GitHub Issues: https://github.com/com3run/testauth/issues
+- GitHub Issues: https://github.com/com3run/firebase-auth-kmp/issues
 - Documentation: See LIBRARY_DOCUMENTATION.md
 
 ## License

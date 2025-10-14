@@ -1,11 +1,32 @@
 # Firebase Auth KMP
 
-[![Maven Central](https://img.shields.io/maven-central/v/dev.com3run/firebase-auth-kmp.svg)](https://central.sonatype.com/artifact/dev.com3run/firebase-auth-kmp)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0+-blue.svg)](https://kotlinlang.org)
-[![Platforms](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Desktop-green.svg)](https://kotlinlang.org/docs/multiplatform.html)
+<div align="center">
 
-A production-ready Kotlin Multiplatform library that provides Firebase Authentication for **Android**, **iOS**, and **Desktop** with a unified, type-safe API.
+[![Maven Central](https://img.shields.io/maven-central/v/dev.com3run/firebase-auth-kmp?style=for-the-badge&logo=sonatype&logoColor=white&color=blue)](https://central.sonatype.com/artifact/dev.com3run/firebase-auth-kmp)
+[![GitHub Release](https://img.shields.io/github/v/release/com3run/firebase-auth-kmp?style=for-the-badge&logo=github&logoColor=white&color=brightgreen)](https://github.com/com3run/firebase-auth-kmp/releases/latest)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.0+-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
+
+[![Android](https://img.shields.io/badge/Android-24%2B-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
+[![iOS](https://img.shields.io/badge/iOS-13.0%2B-000000?style=for-the-badge&logo=apple&logoColor=white)](https://developer.apple.com/ios/)
+[![Desktop](https://img.shields.io/badge/Desktop-JVM%2011%2B-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://kotlinlang.org/docs/multiplatform.html)
+[![GitHub Stars](https://img.shields.io/github/stars/com3run/firebase-auth-kmp?style=for-the-badge&logo=github&logoColor=white&color=gold)](https://github.com/com3run/firebase-auth-kmp/stargazers)
+
+<h3>🔥 Production-Ready Firebase Authentication for Kotlin Multiplatform 🔥</h3>
+
+<p>
+A complete Firebase Authentication solution for <strong>Android</strong>, <strong>iOS</strong>, and <strong>Desktop</strong><br/>
+with a unified, type-safe API. Zero-config on Android, one-line setup on iOS!
+</p>
+
+[📦 Installation](#-quick-start) •
+[📖 Docs](QUICKSTART.md) •
+[🎯 Examples](#-usage) •
+[⭐ Star Us!](https://github.com/com3run/firebase-auth-kmp/stargazers)
+
+</div>
+
+---
 
 ## ✨ Features
 

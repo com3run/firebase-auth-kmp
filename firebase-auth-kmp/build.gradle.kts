@@ -81,7 +81,7 @@ publishing {
         pom {
             name.set("Firebase Auth KMP")
             description.set("Firebase Authentication library for Kotlin Multiplatform (Android & iOS)")
-            url.set("https://github.com/com3run/testauth")
+            url.set("https://github.com/com3run/firebase-auth-kmp")
 
             licenses {
                 license {
@@ -99,9 +99,9 @@ publishing {
             }
 
             scm {
-                connection.set("scm:git:git://github.com/com3run/testauth.git")
-                developerConnection.set("scm:git:ssh://git@github.com:com3run/testauth.git")
-                url.set("https://github.com/com3run/testauth")
+                connection.set("scm:git:git://github.com/com3run/firebase-auth-kmp.git")
+                developerConnection.set("scm:git:ssh://git@github.com:com3run/firebase-auth-kmp.git")
+                url.set("https://github.com/com3run/firebase-auth-kmp")
             }
         }
     }
@@ -115,3 +115,7 @@ signing {
         sign(publishing.publications)
     }
 }
+
+// NMCP (Maven Central Portal) configuration for automatic publishing
+// Note: This must be configured in the root build.gradle.kts
+// The publishToMavenCentral task will be available after root project configuration

@@ -11,8 +11,9 @@ plugins {
 
 nmcp {
     publishAllProjectsProbablyBreakingProjectIsolation {
-        username = project.findProperty("centralPortalUsername") as String? ?: System.getenv("CENTRAL_PORTAL_USERNAME")
-        password = project.findProperty("centralPortalPassword") as String? ?: System.getenv("CENTRAL_PORTAL_PASSWORD")
-        publicationType = "USER_MANAGED"
+        username = project.findProperty("mavenCentralUsername") as String? ?: System.getenv("MAVEN_CENTRAL_USERNAME")
+        password = project.findProperty("mavenCentralPassword") as String? ?: System.getenv("MAVEN_CENTRAL_PASSWORD")
+        // AUTOMATIC: Automatically release after validation (no manual steps!)
+        publicationType = "AUTOMATIC"
     }
 }

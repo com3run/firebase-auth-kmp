@@ -32,3 +32,7 @@ private-key.txt
 *.md5
 *.sha1
 *.zip
+
+# Internal documentation (development/publishing notes - keep private)
+internal-docs/
+verify-publishing-setup.sh
