@@ -2,129 +2,122 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/dev.com3run/firebase-auth-kmp.svg)](https://central.sonatype.com/artifact/dev.com3run/firebase-auth-kmp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.0+-blue.svg)](https://kotlinlang.org)
+[![Platforms](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Desktop-green.svg)](https://kotlinlang.org/docs/multiplatform.html)
 
-A production-ready Kotlin Multiplatform library that provides Firebase Authentication for Android and iOS with a unified, type-safe API.
+A production-ready Kotlin Multiplatform library that provides Firebase Authentication for **Android**, **iOS**, and **Desktop** with a unified, type-safe API.
 
-## Features
+## ✨ Features
 
-- ✅ **Cross-platform**: Single codebase for Android & iOS
+- 🎯 **Cross-platform**: Single codebase for Android, iOS & Desktop (JVM)
+- 🚀 **Easy Integration**: Auto-initialization on Android, one-line setup on iOS
 - 🔐 **Complete Authentication**:
   - Email/Password (Sign up & Sign in)
   - Google Sign-In
   - Apple Sign-In (iOS)
   - Anonymous Authentication
-  - Facebook Sign-In (coming soon)
+  - Facebook Sign-In
 - 🔄 **Real-time Auth State**: Flow-based auth state monitoring
 - 🛡️ **Type-safe**: Kotlin-first API with sealed classes for results
 - 🧪 **Testable**: Includes FakeAuthBackend for unit testing
-- 📱 **Platform-optimized**: Uses native Firebase SDKs on both platforms
-- 🚀 **Production-ready**: Published on Maven Central
+- 📱 **Platform-optimized**: Native Firebase SDKs on Android/iOS, REST API on Desktop
+- 💎 **Production-ready**: Published on Maven Central
 
-## Installation
+## 🚀 Quick Start
 
-### Maven Central (Recommended)
+**⚡ Super fast?** See [QUICKSTART.md](QUICKSTART.md) (30 seconds)
 
-Add the dependency to your `commonMain` source set:
+**📖 Detailed setup:** See below (2 minutes)
+
+### Installation
 
 ```kotlin
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("dev.com3run:firebase-auth-kmp:1.0.0")
+            implementation("dev.com3run:firebase-auth-kmp:1.0.1")
         }
     }
 }
 ```
 
-That's it! No need to add any special repositories - Maven Central is already configured by default.
+### Platform Setup
 
-### Alternative: JitPack
+#### Android ✅ **AUTOMATIC!**
+**No code needed!** Just add your `google-services.json` file.
 
-If you prefer JitPack, add the repository and dependency:
-
-```kotlin
-// settings.gradle.kts
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://jitpack.io") }
-    }
-}
-
-// build.gradle.kts
-commonMain.dependencies {
-    implementation("com.github.com3run:testauth:1.0.0")
-}
-```
-
-## Quick Start
-
-### Android Setup
-
-1. Add `google-services.json` to your `composeApp/` directory
-2. Set up Activity reference in your `MainActivity`:
+~~❌ OLD:~~ ~~You had to manually set `ActivityHolder.current`~~
+✅ **NEW:** Auto-initializes via ContentProvider!
 
 ```kotlin
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import dev.com3run.firebaseauthkmp.ActivityHolder
-import dev.com3run.firebaseauthkmp.GoogleSignInInterop
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ActivityHolder.current = this
-
+        // That's it! No Firebase Auth initialization needed! 🎉
         setContent {
-            // Your app content
+            App()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        ActivityHolder.current = null
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        GoogleSignInInterop.onActivityResult(requestCode, resultCode, data)
     }
 }
 ```
 
-### iOS Setup
+#### iOS 📱 **ONE LINE!**
 
-1. Add `GoogleService-Info.plist` to your iOS app
-2. Create `FirebaseAuthBridge.swift` (see [docs/LIBRARY_INTEGRATION.md](docs/LIBRARY_INTEGRATION.md) for full code)
-3. Initialize in AppDelegate:
+1. Copy `FirebaseAuthBridge.swift` from the library to your iOS app
+2. Add to AppDelegate:
 
 ```swift
-import Firebase
+import FirebaseCore
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
-        FirebaseAuthBridge.shared.start()
+        FirebaseAuthBridge.shared.start()  // ← ONE LINE!
         return true
     }
 }
 ```
 
-## Usage
+[Get the bridge file →](firebase-auth-kmp/FirebaseAuthBridge.swift.template)
+
+#### Desktop 💻 **SIMPLE CONFIG!**
+
+Create `firebase-config.json` in your project root:
+
+```json
+{
+  "apiKey": "YOUR_FIREBASE_API_KEY",
+  "projectId": "your-project-id"
+}
+```
+
+[Find your API key in Firebase Console →](https://console.firebase.google.com/)
+
+---
+
+**🎯 Want detailed setup?** See [EASY-INTEGRATION.md](EASY-INTEGRATION.md)
+
+## 💡 Usage
 
 ### Basic Authentication
 
 ```kotlin
-import dev.com3run.firebaseauthkmp.AuthRepository
-import dev.com3run.firebaseauthkmp.platformAuthBackend
+import dev.com3run.firebaseauthkmp.*
+import org.koin.core.context.startKoin
 
-// Create auth repository
-val authRepository = AuthRepository(platformAuthBackend())
+// Initialize Koin
+startKoin {
+    modules(module {
+        single<AuthBackend> { platformAuthBackend() }
+        single { AuthRepository(get()) }
+    })
+}
 
-// Listen to auth state
+// Use auth repository
+val authRepository = get<AuthRepository>()
+
+// Monitor auth state
 authRepository.authState.collect { user ->
     if (user != null) {
         println("Signed in: ${user.email}")
@@ -143,15 +136,19 @@ val result = authRepository.signInWithEmailAndPassword(
 )
 
 when (result) {
-    is AuthResult.Success -> println("Welcome ${result.user.displayName}!")
-    is AuthResult.Failure -> println("Error: ${result.error}")
+    is AuthResult.Success -> println("Welcome ${result.data.displayName}!")
+    is AuthResult.Failure -> when (result.error) {
+        AuthError.InvalidCredential -> println("Wrong email or password")
+        AuthError.UserNotFound -> println("No account found")
+        else -> println("Error: ${result.error}")
+    }
 }
 ```
 
 ### Sign In with Google
 
 ```kotlin
-// Request ID token using platform-specific flow
+// Request ID token (platform-specific UI flow)
 val idToken = requestGoogleIdToken()
 
 if (idToken != null) {
@@ -180,33 +177,62 @@ when (result) {
 authRepository.signOut()
 ```
 
-## Documentation
+## 📚 Documentation
 
-- 📘 [Library Integration Guide](docs/LIBRARY_INTEGRATION.md) - Complete setup instructions
-- 📖 [Usage Examples](docs/USAGE_EXAMPLES.md) - More code examples and patterns
+### Getting Started
+- 🚀 **[Easy Integration Guide](EASY-INTEGRATION.md)** - 5-minute setup for all platforms
+- 📘 [Library Integration Guide](docs/LIBRARY_INTEGRATION.md) - Detailed setup instructions
+- 📖 [Usage Examples](docs/USAGE_EXAMPLES.md) - More code examples
+
+### Platform-Specific
+- 🤖 [Android Setup](agents/firebase-setup.md#android-setup) - Auto-initialization details
+- 🍎 [iOS Setup](agents/firebase-setup.md#ios-setup) - Bridge configuration
+- 💻 [Desktop Setup](agents/desktop-setup.md) - JVM configuration & limitations
+
+### Advanced
 - 🔧 [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
-- 🍎 [Apple Sign-In Guide](docs/APPLE_SIGNIN_GUIDE.md) - iOS-specific setup
-- 🚀 [Publishing Guide](docs/MAVEN_CENTRAL_SETUP.md) - How to publish to Maven Central
+- 🏗️ [Architecture](agents/project-overview.md) - Clean architecture design
+- 👨‍💻 [Coding Guidelines](agents/coding-guidelines.md) - Best practices
+- 🔄 [Migration Guide](MIGRATION.md) - Upgrading from v1.0.0/1.0.1
 
-## Architecture
+## 🏗️ Architecture
 
 The library follows clean architecture principles:
 
-- **AuthRepository**: High-level API for authentication operations with validation
-- **AuthBackend**: Platform-specific interface (Android/iOS implementations)
+```
+┌─────────────────────────────────────┐
+│      AuthRepository                 │  ← Validation + High-level API
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│      AuthBackend (Interface)        │  ← Platform-agnostic contract
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴────────┬─────────────┐
+       ▼                ▼              ▼
+┌──────────────┐  ┌─────────────┐  ┌──────────────┐
+│  Android     │  │     iOS     │  │   Desktop    │
+│  Firebase    │  │  Firebase   │  │  Firebase    │
+│  SDK         │  │  Bridge     │  │  REST API    │
+└──────────────┘  └─────────────┘  └──────────────┘
+```
+
+### Key Components
+
+- **AuthRepository**: High-level API with input validation
+- **AuthBackend**: Platform-specific interface (Android/iOS/Desktop)
 - **AuthModels**: Common data models (AuthUser, AuthResult, AuthError)
 
-### iOS Bridge Architecture
+### Platform Implementations
 
-On iOS, the library uses an elegant notification-based bridge between Kotlin and Swift:
-1. Kotlin sends requests via NSNotificationCenter
-2. Swift receives notifications and calls native Firebase Auth SDK
-3. Swift sends responses back via NSNotificationCenter
-4. Kotlin resumes suspended coroutines with results
+| Platform | Implementation | Features |
+|----------|----------------|----------|
+| **Android** | Native Firebase SDK | ✅ Auto-init, Full OAuth, Offline support |
+| **iOS** | Notification bridge | ✅ Native SDK, Full OAuth, One-line setup |
+| **Desktop** | REST API | ✅ Email/Password, Anonymous, Manual OAuth |
 
-This approach keeps the UI thread responsive and provides a seamless async experience.
-
-## Testing
+## 🧪 Testing
 
 The library includes `FakeAuthBackend` for unit testing:
 
@@ -214,42 +240,80 @@ The library includes `FakeAuthBackend` for unit testing:
 import dev.com3run.firebaseauthkmp.FakeAuthBackend
 import dev.com3run.firebaseauthkmp.AuthRepository
 
-val fakeBackend = FakeAuthBackend()
-val authRepository = AuthRepository(fakeBackend)
+@Test
+fun `test sign in success`() = runTest {
+    val fakeBackend = FakeAuthBackend()
+    val authRepository = AuthRepository(fakeBackend)
 
-// Use in tests
+    fakeBackend.setAuthResult(AuthResult.Success(testUser))
+
+    val result = authRepository.signInWithEmailAndPassword("test@example.com", "password")
+
+    assertTrue(result is AuthResult.Success)
+}
 ```
 
-## Sample App
+## 📦 Sample App
 
-This repository includes a complete sample app demonstrating all authentication methods. Run the `composeApp` module to see it in action.
+This repository includes a complete sample app demonstrating all authentication methods:
 
-## Requirements
+- ✅ Email/Password authentication
+- ✅ Google Sign-In
+- ✅ Apple Sign-In (iOS)
+- ✅ Anonymous authentication
+- ✅ Profile management
+- ✅ Password reset
+
+Run the `composeApp` module to see it in action!
+
+## ⚙️ Requirements
 
 - Kotlin 2.0+
-- Android API 24+
+- Android API 24+ (Android 7.0)
 - iOS 13.0+
+- JVM 11+ (Desktop)
 - Firebase project with Authentication enabled
 
-## Contributing
+## 🆕 What's New in v1.0.2
+
+- ✨ **Desktop/JVM support** - Run on Windows, macOS, Linux
+- 🚀 **Android auto-initialization** - Zero manual setup required!
+- 📱 **Simplified iOS setup** - Ready-to-use bridge template
+- 📚 **Easy Integration Guide** - Get started in 2 minutes
+- 🔧 **Better error messages** - Clear, actionable feedback
+
+[See full changelog →](CHANGELOG.md)
+
+## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Links
+## 🔗 Links
 
 - 📦 [Maven Central](https://central.sonatype.com/artifact/dev.com3run/firebase-auth-kmp)
-- 📚 [Full Documentation](docs/LIBRARY_INTEGRATION.md)
-- 🐛 [Report Issues](https://github.com/com3run/testauth/issues)
-- ⭐ [Star on GitHub](https://github.com/com3run/testauth)
+- 📚 [Full Documentation](agents/)
+- 🐛 [Report Issues](https://github.com/com3run/firebase-auth-kmp/issues)
+- ⭐ [Star on GitHub](https://github.com/com3run/firebase-auth-kmp)
+- 💬 [Discussions](https://github.com/com3run/firebase-auth-kmp/discussions)
 
-## Credits
+## 👨‍💻 Credits
 
 Created by [Kamran Mammadov](https://github.com/com3run)
 
+Special thanks to all contributors!
+
 ---
 
-Made with ❤️ using Kotlin Multiplatform
+**Made with ❤️ using Kotlin Multiplatform**
+
+⭐ If you find this library helpful, please star the repo!

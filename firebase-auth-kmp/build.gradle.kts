@@ -3,13 +3,14 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    kotlin("plugin.serialization") version "2.1.0"
     id("maven-publish")
     id("signing")
     id("com.gradleup.nmcp") version "0.0.8"
 }
 
 group = "dev.com3run"
-version = "1.0.0"
+version = "1.0.1"
 
 kotlin {
     androidTarget {
@@ -17,6 +18,12 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
         publishLibraryVariants("release", "debug")
+    }
+
+    jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
 
     listOf(
@@ -33,6 +40,13 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.firebase.auth.ktx)
             implementation(libs.play.services.auth)
+        }
+        jvmMain.dependencies {
+            implementation("io.ktor:ktor-client-core:2.3.7")
+            implementation("io.ktor:ktor-client-cio:2.3.7")
+            implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
         }
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)

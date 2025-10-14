@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!-- Auto-initializer for Firebase Auth KMP -->
+        <!-- This ContentProvider runs automatically when the app starts -->
+        <!-- No manual initialization required! -->
+        <provider
+            android:name="dev.com3run.firebaseauthkmp.FirebaseAuthInitializer"
+            android:authorities="${applicationId}.firebase-auth-kmp-initializer"
+            android:exported="false"
+            android:initOrder="100" />
+    </application>
+
+</manifest>

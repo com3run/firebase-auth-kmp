@@ -16,6 +16,11 @@ kotlin {
         }
     }
 
+    jvm("desktop") {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
 
     listOf(
         iosArm64(),
@@ -35,6 +40,12 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
+        }
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(libs.kotlinx.coroutines.swing)
+            }
         }
         commonMain.dependencies {
             // Firebase Auth KMP Library
@@ -89,4 +100,20 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+}
+
+compose.desktop {
+    application {
+        mainClass = "az.random.testauth.MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "Firebase Auth KMP"
+            packageVersion = "1.0.0"
+
+            macOS {
+                bundleID = "az.random.testauth"
+            }
+        }
+    }
 }
