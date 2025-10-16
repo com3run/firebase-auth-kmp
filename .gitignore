@@ -36,3 +36,4 @@ private-key.txt
 # Internal documentation (development/publishing notes - keep private)
 internal-docs/
 verify-publishing-setup.sh
+firebase-config.json

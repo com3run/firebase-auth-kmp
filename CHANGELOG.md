@@ -5,6 +5,26 @@ All notable changes to Firebase Auth KMP will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-10-16
+
+### Fixed
+- 📦 **Maven Central JVM Module** - Ensured JVM/Desktop artifact is properly published to Maven Central
+  - Verified all platform-specific modules are available
+  - Fixed umbrella dependency resolution for Desktop targets
+  - Users can now use `implementation("dev.com3run:firebase-auth-kmp:1.0.2")` in `commonMain` for all platforms including Desktop
+
+### Added
+- 📚 **JitPack documentation** - Added clear instructions for JitPack users
+  - Documented platform-specific artifact requirements for JitPack
+  - Added troubleshooting section for dependency resolution issues
+  - Recommended Maven Central as primary distribution channel
+
+### Changed
+- 📖 **Updated README.md** with installation options
+  - Differentiated between Maven Central (recommended) and JitPack
+  - Added platform-specific dependency examples for JitPack users
+  - Clarified umbrella dependency behavior across repositories
+
 ## [1.0.1] - 2025-10-14
 
 ### Added

@@ -1,0 +1,142 @@
+Type-safe project accessors is an incubating feature.
+> Task :publishAllPublicationsToCentralPortal UP-TO-DATE
+> Task :firebase-auth-kmp:androidDebugSourcesJar UP-TO-DATE
+> Task :firebase-auth-kmp:preBuild UP-TO-DATE
+> Task :firebase-auth-kmp:preDebugBuild UP-TO-DATE
+> Task :firebase-auth-kmp:mergeDebugJniLibFolders UP-TO-DATE
+> Task :firebase-auth-kmp:mergeDebugNativeLibs NO-SOURCE
+> Task :firebase-auth-kmp:stripDebugDebugSymbols NO-SOURCE
+> Task :firebase-auth-kmp:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :firebase-auth-kmp:kmpPartiallyResolvedDependenciesChecker
+> Task :firebase-auth-kmp:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :firebase-auth-kmp:generateDebugResValues UP-TO-DATE
+> Task :firebase-auth-kmp:generateDebugResources UP-TO-DATE
+> Task :firebase-auth-kmp:packageDebugResources UP-TO-DATE
+> Task :firebase-auth-kmp:parseDebugLocalResources UP-TO-DATE
+> Task :firebase-auth-kmp:generateDebugRFile UP-TO-DATE
+> Task :firebase-auth-kmp:compileDebugKotlinAndroid UP-TO-DATE
+> Task :firebase-auth-kmp:extractDebugAnnotations UP-TO-DATE
+> Task :firebase-auth-kmp:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :firebase-auth-kmp:mergeDebugShaders UP-TO-DATE
+> Task :firebase-auth-kmp:compileDebugShaders NO-SOURCE
+> Task :firebase-auth-kmp:debugAssetsCopyForAGP NO-SOURCE
+> Task :firebase-auth-kmp:generateDebugAssets UP-TO-DATE
+> Task :firebase-auth-kmp:mergeDebugAssets UP-TO-DATE
+> Task :firebase-auth-kmp:javaPreCompileDebug UP-TO-DATE
+> Task :firebase-auth-kmp:compileDebugJavaWithJavac NO-SOURCE
+> Task :firebase-auth-kmp:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :firebase-auth-kmp:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :firebase-auth-kmp:prepareDebugArtProfile UP-TO-DATE
+> Task :firebase-auth-kmp:prepareLintJarForPublish UP-TO-DATE
+> Task :firebase-auth-kmp:processDebugManifest UP-TO-DATE
+> Task :firebase-auth-kmp:processDebugJavaRes UP-TO-DATE
+> Task :firebase-auth-kmp:mergeDebugJavaResource UP-TO-DATE
+> Task :firebase-auth-kmp:syncDebugLibJars UP-TO-DATE
+> Task :firebase-auth-kmp:writeDebugAarMetadata UP-TO-DATE
+> Task :firebase-auth-kmp:bundleDebugAar UP-TO-DATE
+> Task :firebase-auth-kmp:generateMetadataFileForAndroidDebugPublication
+> Task :firebase-auth-kmp:generatePomFileForAndroidDebugPublication
+> Task :firebase-auth-kmp:signAndroidDebugPublication UP-TO-DATE
+> Task :firebase-auth-kmp:publishAndroidDebugPublicationToNmcpAndroidDebugRepository
+> Task :firebase-auth-kmp:zipAndroidDebugPublication
+> Task :firebase-auth-kmp:publishAndroidDebugPublicationToCentralPortal
+> Task :firebase-auth-kmp:androidReleaseSourcesJar UP-TO-DATE
+> Task :firebase-auth-kmp:preReleaseBuild UP-TO-DATE
+> Task :firebase-auth-kmp:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :firebase-auth-kmp:mergeReleaseNativeLibs NO-SOURCE
+> Task :firebase-auth-kmp:stripReleaseDebugSymbols NO-SOURCE
+> Task :firebase-auth-kmp:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :firebase-auth-kmp:generateReleaseResValues UP-TO-DATE
+> Task :firebase-auth-kmp:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :firebase-auth-kmp:generateReleaseResources UP-TO-DATE
+> Task :firebase-auth-kmp:packageReleaseResources UP-TO-DATE
+> Task :firebase-auth-kmp:parseReleaseLocalResources UP-TO-DATE
+> Task :firebase-auth-kmp:generateReleaseRFile UP-TO-DATE
+> Task :firebase-auth-kmp:compileReleaseKotlinAndroid UP-TO-DATE
+> Task :firebase-auth-kmp:extractReleaseAnnotations UP-TO-DATE
+> Task :firebase-auth-kmp:mergeReleaseShaders UP-TO-DATE
+> Task :firebase-auth-kmp:compileReleaseShaders NO-SOURCE
+> Task :firebase-auth-kmp:generateReleaseAssets UP-TO-DATE
+> Task :firebase-auth-kmp:releaseAssetsCopyForAGP NO-SOURCE
+> Task :firebase-auth-kmp:mergeReleaseAssets UP-TO-DATE
+> Task :firebase-auth-kmp:javaPreCompileRelease UP-TO-DATE
+> Task :firebase-auth-kmp:compileReleaseJavaWithJavac NO-SOURCE
+> Task :firebase-auth-kmp:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :firebase-auth-kmp:mergeReleaseConsumerProguardFiles UP-TO-DATE
+> Task :firebase-auth-kmp:prepareReleaseArtProfile UP-TO-DATE
+> Task :firebase-auth-kmp:processReleaseManifest UP-TO-DATE
+> Task :firebase-auth-kmp:processReleaseJavaRes UP-TO-DATE
+> Task :firebase-auth-kmp:mergeReleaseJavaResource UP-TO-DATE
+> Task :firebase-auth-kmp:syncReleaseLibJars UP-TO-DATE
+> Task :firebase-auth-kmp:writeReleaseAarMetadata UP-TO-DATE
+> Task :firebase-auth-kmp:bundleReleaseAar UP-TO-DATE
+> Task :firebase-auth-kmp:generateMetadataFileForAndroidReleasePublication
+> Task :firebase-auth-kmp:generatePomFileForAndroidReleasePublication
+> Task :firebase-auth-kmp:signAndroidReleasePublication UP-TO-DATE
+> Task :firebase-auth-kmp:publishAndroidReleasePublicationToNmcpAndroidReleaseRepository
+> Task :firebase-auth-kmp:zipAndroidReleasePublication
+> Task :firebase-auth-kmp:publishAndroidReleasePublicationToCentralPortal
+> Task :firebase-auth-kmp:compileKotlinIosArm64 UP-TO-DATE
+> Task :firebase-auth-kmp:iosArm64Klib UP-TO-DATE
+> Task :firebase-auth-kmp:commonizeNativeDistribution UP-TO-DATE
+> Task :firebase-auth-kmp:transformCommonMainDependenciesMetadata UP-TO-DATE
+> Task :firebase-auth-kmp:compileCommonMainKotlinMetadata UP-TO-DATE
+> Task :firebase-auth-kmp:metadataCommonMainProcessResources NO-SOURCE
+> Task :firebase-auth-kmp:metadataCommonMainClasses UP-TO-DATE
+> Task :firebase-auth-kmp:transformNativeMainDependenciesMetadata UP-TO-DATE
+> Task :firebase-auth-kmp:compileNativeMainKotlinMetadata NO-SOURCE
+> Task :firebase-auth-kmp:metadataNativeMainProcessResources NO-SOURCE
+> Task :firebase-auth-kmp:metadataNativeMainClasses UP-TO-DATE
+> Task :firebase-auth-kmp:transformAppleMainDependenciesMetadata UP-TO-DATE
+> Task :firebase-auth-kmp:compileAppleMainKotlinMetadata NO-SOURCE
+> Task :firebase-auth-kmp:metadataAppleMainProcessResources NO-SOURCE
+> Task :firebase-auth-kmp:metadataAppleMainClasses UP-TO-DATE
+> Task :firebase-auth-kmp:transformIosMainDependenciesMetadata UP-TO-DATE
+> Task :firebase-auth-kmp:compileIosMainKotlinMetadata UP-TO-DATE
+> Task :firebase-auth-kmp:metadataIosMainProcessResources NO-SOURCE
+> Task :firebase-auth-kmp:metadataIosMainClasses UP-TO-DATE
+> Task :firebase-auth-kmp:iosArm64MetadataElements UP-TO-DATE
+> Task :firebase-auth-kmp:iosArm64SourcesJar UP-TO-DATE
+> Task :firebase-auth-kmp:generateMetadataFileForIosArm64Publication
+> Task :firebase-auth-kmp:generatePomFileForIosArm64Publication
+> Task :firebase-auth-kmp:signIosArm64Publication UP-TO-DATE
+> Task :firebase-auth-kmp:publishIosArm64PublicationToNmcpIosArm64Repository
+> Task :firebase-auth-kmp:zipIosArm64Publication
+> Task :firebase-auth-kmp:publishIosArm64PublicationToCentralPortal
+> Task :firebase-auth-kmp:compileKotlinIosSimulatorArm64 UP-TO-DATE
+> Task :firebase-auth-kmp:iosSimulatorArm64Klib UP-TO-DATE
+> Task :firebase-auth-kmp:iosSimulatorArm64MetadataElements UP-TO-DATE
+> Task :firebase-auth-kmp:iosSimulatorArm64SourcesJar UP-TO-DATE
+> Task :firebase-auth-kmp:generateMetadataFileForIosSimulatorArm64Publication
+> Task :firebase-auth-kmp:generatePomFileForIosSimulatorArm64Publication
+> Task :firebase-auth-kmp:signIosSimulatorArm64Publication UP-TO-DATE
+> Task :firebase-auth-kmp:publishIosSimulatorArm64PublicationToNmcpIosSimulatorArm64Repository
+> Task :firebase-auth-kmp:zipIosSimulatorArm64Publication
+> Task :firebase-auth-kmp:publishIosSimulatorArm64PublicationToCentralPortal
+> Task :firebase-auth-kmp:compileKotlinJvm UP-TO-DATE
+> Task :firebase-auth-kmp:compileJvmMainJava NO-SOURCE
+> Task :firebase-auth-kmp:jvmProcessResources NO-SOURCE
+> Task :firebase-auth-kmp:processJvmMainResources SKIPPED
+> Task :firebase-auth-kmp:jvmMainClasses UP-TO-DATE
+> Task :firebase-auth-kmp:jvmJar UP-TO-DATE
+> Task :firebase-auth-kmp:jvmSourcesJar UP-TO-DATE
+> Task :firebase-auth-kmp:generateMetadataFileForJvmPublication
+> Task :firebase-auth-kmp:generatePomFileForJvmPublication
+> Task :firebase-auth-kmp:signJvmPublication UP-TO-DATE
+> Task :firebase-auth-kmp:publishJvmPublicationToNmcpJvmRepository
+> Task :firebase-auth-kmp:zipJvmPublication
+> Task :firebase-auth-kmp:publishJvmPublicationToCentralPortal
+> Task :firebase-auth-kmp:generateProjectStructureMetadata UP-TO-DATE
+> Task :firebase-auth-kmp:allMetadataJar UP-TO-DATE
+> Task :firebase-auth-kmp:buildKotlinToolingMetadata UP-TO-DATE
+> Task :firebase-auth-kmp:sourcesJar UP-TO-DATE
+> Task :firebase-auth-kmp:generateMetadataFileForKotlinMultiplatformPublication
+> Task :firebase-auth-kmp:generatePomFileForKotlinMultiplatformPublication
+> Task :firebase-auth-kmp:signKotlinMultiplatformPublication UP-TO-DATE
+> Task :firebase-auth-kmp:publishKotlinMultiplatformPublicationToNmcpKotlinMultiplatformRepository
+> Task :firebase-auth-kmp:zipKotlinMultiplatformPublication
+> Task :firebase-auth-kmp:publishKotlinMultiplatformPublicationToCentralPortal
+> Task :firebase-auth-kmp:publishAllPublicationsToCentralPortal
+
+BUILD SUCCESSFUL in 12s
+106 actionable tasks: 31 executed, 75 up-to-date

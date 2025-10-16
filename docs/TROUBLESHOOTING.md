@@ -324,6 +324,75 @@ Before deploying:
 - [ ] Add loading indicators
 - [ ] Handle edge cases (network loss during auth, etc.)
 
+## Dependency Resolution Issues
+
+### Issue: JitPack - "No matching variant found" for JVM/Desktop target
+
+**Error:**
+```
+Could not resolve com.github.com3run.firebase-auth-kmp:firebase-auth-kmp-android:vX.X.X.
+No matching variant found. The consumer was configured to find a library for use during compile-time,
+preferably optimized for standard JVMs, as well as attribute 'org.jetbrains.kotlin.platform.type' with value 'jvm'
+```
+
+**Cause:** JitPack has limitations with Kotlin Multiplatform umbrella dependencies when used with `jvm("desktop")` targets. The umbrella artifact doesn't automatically resolve to platform-specific modules in this context.
+
+**Solution 1: Use platform-specific artifacts (Recommended for JitPack)**
+
+Instead of using the umbrella dependency, specify the platform-specific artifact:
+
+```kotlin
+repositories {
+    maven("https://jitpack.io")
+}
+
+kotlin {
+    sourceSets {
+        val desktopMain by getting {
+            dependencies {
+                // Use the platform-specific JVM artifact
+                implementation("com.github.com3run.firebase-auth-kmp:firebase-auth-kmp-jvm:v1.0.1")
+            }
+        }
+    }
+}
+```
+
+**Solution 2: Switch to Maven Central (Best practice)**
+
+Maven Central has better support for KMP umbrella dependencies:
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            // Umbrella dependency works correctly on Maven Central
+            implementation("dev.com3run:firebase-auth-kmp:1.0.1")
+        }
+    }
+}
+```
+
+**Why this happens:**
+
+- The library's Gradle metadata is correctly configured with proper JVM attributes
+- Maven Central handles KMP umbrella dependencies seamlessly
+- JitPack's artifact resolution has known limitations with KMP root publications
+- Using platform-specific modules (`-jvm`, `-android`, `-iosarm64`) is the standard workaround for JitPack
+
+**Reference:**
+- [KMP Library Publication](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-publish-lib-setup.html)
+- [JitPack KMP Issues](https://github.com/jitpack/jitpack.io/issues/3853)
+
+### Issue: Duplicate class errors after switching repositories
+
+**Solution:**
+```bash
+./gradlew clean
+rm -rf ~/.gradle/caches
+./gradlew build
+```
+
 ## Contact
 
 For library-specific issues, check:

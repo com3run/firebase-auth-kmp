@@ -52,15 +52,45 @@ with a unified, type-safe API. Zero-config on Android, one-line setup on iOS!
 
 ### Installation
 
+#### From Maven Central (Recommended)
+
 ```kotlin
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("dev.com3run:firebase-auth-kmp:1.0.1")
+            implementation("dev.com3run:firebase-auth-kmp:1.0.2")
         }
     }
 }
 ```
+
+#### From JitPack (Alternative)
+
+For JitPack, if you have a `jvm("desktop")` target, use platform-specific dependencies:
+
+```kotlin
+repositories {
+    maven("https://jitpack.io")
+}
+
+kotlin {
+    sourceSets {
+        androidMain.dependencies {
+            implementation("com.github.com3run.firebase-auth-kmp:firebase-auth-kmp-android:v1.0.2")
+        }
+        iosMain.dependencies {
+            implementation("com.github.com3run.firebase-auth-kmp:firebase-auth-kmp-iosarm64:v1.0.2")
+        }
+        val desktopMain by getting {
+            dependencies {
+                implementation("com.github.com3run.firebase-auth-kmp:firebase-auth-kmp-jvm:v1.0.2")
+            }
+        }
+    }
+}
+```
+
+> **Note**: JitPack requires platform-specific artifacts for `desktopMain` source sets. For automatic resolution, use Maven Central instead.
 
 ### Platform Setup
 
