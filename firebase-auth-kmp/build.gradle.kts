@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "dev.com3run"
-version = "1.0.3"
+version = "1.0.4"
 
 kotlin {
     androidTarget {
@@ -28,6 +28,7 @@ kotlin {
 
     listOf(
         iosArm64(),
+        iosX64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
