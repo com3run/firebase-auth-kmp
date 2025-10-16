@@ -7,11 +7,10 @@ plugins {
     id("maven-publish")
     id("signing")
     id("com.gradleup.nmcp") version "0.0.8"
-    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 group = "dev.com3run"
-version = "1.0.2"
+version = "1.0.3"
 
 kotlin {
     androidTarget {
@@ -118,16 +117,16 @@ signing {
 }
 
 // Javadoc JAR configuration for Maven Central requirement
+// Create a unique empty Javadoc JAR for each publication to avoid signing conflicts
 // Maven Central accepts empty Javadoc JARs for Kotlin libraries
-val javadocJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("javadoc")
-    archiveBaseName.set("${project.name}-javadoc")
-}
-
-// Add Javadoc JAR to the root publication only
 afterEvaluate {
-    publishing.publications.named<MavenPublication>("kotlinMultiplatform") {
-        artifact(javadocJar)
+    publishing.publications.withType<MavenPublication>().configureEach {
+        val publicationName = name
+        val javadocTask = tasks.register<Jar>("javadocJar${publicationName.capitalize()}") {
+            archiveClassifier.set("javadoc")
+            archiveBaseName.set("${project.name}-$publicationName")
+        }
+        artifact(javadocTask)
     }
 }
 

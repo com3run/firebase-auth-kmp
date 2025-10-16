@@ -58,7 +58,7 @@ with a unified, type-safe API. Zero-config on Android, one-line setup on iOS!
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("dev.com3run:firebase-auth-kmp:1.0.2")
+            implementation("dev.com3run:firebase-auth-kmp:1.0.3")
         }
     }
 }
@@ -76,14 +76,14 @@ repositories {
 kotlin {
     sourceSets {
         androidMain.dependencies {
-            implementation("com.github.com3run.firebase-auth-kmp:firebase-auth-kmp-android:v1.0.2")
+            implementation("com.github.com3run.firebase-auth-kmp:firebase-auth-kmp-android:v1.0.3")
         }
         iosMain.dependencies {
-            implementation("com.github.com3run.firebase-auth-kmp:firebase-auth-kmp-iosarm64:v1.0.2")
+            implementation("com.github.com3run.firebase-auth-kmp:firebase-auth-kmp-iosarm64:v1.0.3")
         }
         val desktopMain by getting {
             dependencies {
-                implementation("com.github.com3run.firebase-auth-kmp:firebase-auth-kmp-jvm:v1.0.2")
+                implementation("com.github.com3run.firebase-auth-kmp:firebase-auth-kmp-jvm:v1.0.3")
             }
         }
     }
@@ -325,7 +325,7 @@ Run the `composeApp` module to see it in action!
 - JVM 11+ (Desktop)
 - Firebase project with Authentication enabled
 
-## 🆕 What's New in v1.0.2
+## 🆕 What's New in v1.0.3
 
 - ✨ **Desktop/JVM support** - Run on Windows, macOS, Linux
 - 🚀 **Android auto-initialization** - Zero manual setup required!

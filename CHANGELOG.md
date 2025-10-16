@@ -5,6 +5,18 @@ All notable changes to Firebase Auth KMP will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2025-10-16
+
+### Fixed
+- 📦 **Maven Central Publication** - Fixed Javadoc signing conflicts preventing successful publication
+  - Each publication now has its own unique Javadoc JAR to avoid signing race conditions
+  - Removed unnecessary Dokka plugin dependency
+  - All 6 platform modules now publish successfully with proper Javadoc artifacts
+
+### Technical
+- Refactored Javadoc JAR generation to create unique tasks per publication
+- Simplified build configuration for Maven Central compliance
+
 ## [1.0.2] - 2025-10-16
 
 ### Fixed
